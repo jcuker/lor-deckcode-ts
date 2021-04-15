@@ -13,3 +13,5 @@ export interface CardCodeAndCount {
    cardCode: string;
    count: number;
 }
+
+export type Deck = CardCodeAndCount[];

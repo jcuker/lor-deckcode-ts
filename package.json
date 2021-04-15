@@ -11,9 +11,6 @@
   },
   "author": "",
   "license": "MIT",
-  "dependencies": {
-    "@ctrl/ts-base32": "^1.2.5"
-  },
   "devDependencies": {
     "@types/expect": "^24.3.0",
     "@types/jest": "^26.0.22",

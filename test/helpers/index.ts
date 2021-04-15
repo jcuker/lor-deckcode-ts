@@ -1,13 +1,14 @@
-import { CardCodeAndCount } from '../../src/types';
+import LoRDeckEncoder from '../../src/RuneterraDeckCode';
+import { Deck } from '../../src/types';
 
 interface LoadAndParseDeckCodesTestDataResult {
    codes: string[];
-   decks: CardCodeAndCount[][];
+   decks: Deck[];
 }
 
 export function LoadAndParseDeckCodesTestData(): LoadAndParseDeckCodesTestDataResult {
    let codes: string[] = [];
-   let decks: CardCodeAndCount[][] = [];
+   let decks: Deck[] = [];
 
    // load the test data from file
    const fs = require('fs');
@@ -22,7 +23,7 @@ export function LoadAndParseDeckCodesTestData(): LoadAndParseDeckCodesTestDataRe
          codes.push(fileContent[0]);
          fileContent.shift();
 
-         const newDeck: CardCodeAndCount[] = [];
+         const newDeck: Deck = [];
 
          while (fileContent && fileContent[0]) {
             const parts = fileContent[0].split(':');
@@ -41,6 +42,45 @@ export function LoadAndParseDeckCodesTestData(): LoadAndParseDeckCodesTestDataRe
    return { codes, decks };
 }
 
-export function sortDeck(deck: CardCodeAndCount[]) {
-   deck.sort((a, b) => (a.cardCode < b.cardCode ? -1 : 1));
+export function verifyRehydration(d: Deck, rehydratedList: Deck): boolean {
+   if (d.length !== rehydratedList.length) return false;
+
+   for (const cd of rehydratedList) {
+      let found = false;
+
+      for (const cc of d) {
+         if (cc.cardCode == cd.cardCode && cc.count == cd.count) {
+            found = true;
+            break;
+         }
+      }
+      if (!found) return false;
+   }
+
+   return true;
+}
+
+export function encodeDeckAndExpectValidRehydration(deck: Deck) {
+   const code = LoRDeckEncoder.getCodeFromDeck(deck);
+   const decoded = LoRDeckEncoder.getDeckFromCode(code);
+   expect(verifyRehydration(deck, decoded)).toBeTruthy();
+}
+
+/**
+ * Turn a string of hexadecimal characters into an ArrayBuffer
+ */
+export function hexToArrayBuffer(hex: string): ArrayBuffer {
+   if (hex.length % 2 !== 0) {
+      throw new RangeError(
+         'Expected string to be an even number of characters'
+      );
+   }
+
+   const view = new Uint8Array(hex.length / 2);
+
+   for (let i = 0; i < hex.length; i += 2) {
+      view[i / 2] = parseInt(hex.substring(i, i + 2), 16);
+   }
+
+   return view.buffer;
 }
