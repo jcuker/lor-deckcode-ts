@@ -6,6 +6,7 @@ specifiers:
   jest: ^26.6.3
   ts-jest: ^26.5.4
   typescript: ^4.2.4
+  uglify-js: ^3.13.4
 
 devDependencies:
   '@types/expect': 24.3.0
@@ -13,6 +14,7 @@ devDependencies:
   jest: 26.6.3
   ts-jest: 26.5.5_jest@26.6.3+typescript@4.2.4
   typescript: 4.2.4
+  uglify-js: 3.13.4
 
 packages:
 
@@ -3488,6 +3490,12 @@ packages:
   /typescript/4.2.4:
     resolution: {integrity: sha512-V+evlYHZnQkaz8TRBuxTA92yZBPotr5H+WhQ7bD3hZUndx5tGOa1fuCgeSjxAzM1RiN5IzvadIXTVefuuwZCRg==}
     engines: {node: '>=4.2.0'}
+    hasBin: true
+    dev: true
+
+  /uglify-js/3.13.4:
+    resolution: {integrity: sha512-kv7fCkIXyQIilD5/yQy8O+uagsYIOt5cZvs890W40/e/rvjMSzJw81o9Bg0tkURxzZBROtDQhW2LFjOGoK3RZw==}
+    engines: {node: '>=0.8.0'}
     hasBin: true
     dev: true
 
