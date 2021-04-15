@@ -1,7 +1,7 @@
 {
-  "name": "lor-deckcodes-ts",
+  "name": "lor-deckcode-ts",
   "version": "1.0.0",
-  "description": "Implementation of the Legends of Runeterra deck code library in Typescript",
+  "description": "Implementation of the Legends of Runeterra deck code library in Typescript with 0 external dependencies",
   "main": "index.js",
   "directories": {
     "test": "test"

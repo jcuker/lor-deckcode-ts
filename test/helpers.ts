@@ -1,5 +1,5 @@
-import LoRDeckEncoder from '../../src/RuneterraDeckCode';
-import { Deck } from '../../src/types';
+import LorDeckCode from '../src/LoRDeckCode';
+import { Deck } from '../src/types';
 
 interface LoadAndParseDeckCodesTestDataResult {
    codes: string[];
@@ -61,8 +61,8 @@ export function verifyRehydration(d: Deck, rehydratedList: Deck): boolean {
 }
 
 export function encodeDeckAndExpectValidRehydration(deck: Deck) {
-   const code = LoRDeckEncoder.getCodeFromDeck(deck);
-   const decoded = LoRDeckEncoder.getDeckFromCode(code);
+   const code = LorDeckCode.getCodeFromDeck(deck);
+   const decoded = LorDeckCode.getDeckFromCode(code);
    expect(verifyRehydration(deck, decoded)).toBeTruthy();
 }
 

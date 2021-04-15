@@ -6,7 +6,7 @@ import VarintTranslator from './VarintTranslator';
 import { mergeUint8Arrays, sortDeck } from './helpers';
 import { base32Decode, base32Encode } from './base32';
 
-class LoRDeckEncoder {
+class LorDeckCode {
    private static readonly CARD_CODE_LENGTH: number = 7;
    private static readonly MAX_KNOWN_VERSION: number = 3;
 
@@ -56,7 +56,7 @@ class LoRDeckEncoder {
 
       byteList.sliceAndSet(1);
 
-      if (version > LoRDeckEncoder.MAX_KNOWN_VERSION) {
+      if (version > LorDeckCode.MAX_KNOWN_VERSION) {
          throw 'The provided code requires a higher version of this library; please update.';
       }
 
@@ -122,7 +122,7 @@ class LoRDeckEncoder {
    }
 
    private static GetDeckCodeBytes(deck: Deck): Uint8Array {
-      if (!LoRDeckEncoder.ValidCardCodesAndCounts(deck))
+      if (!LorDeckCode.ValidCardCodesAndCounts(deck))
          throw 'The provided deck contains invalid card codes.';
 
       const formatAndVersion = 19; //i.e. 00010011
@@ -143,22 +143,22 @@ class LoRDeckEncoder {
       }
 
       //build the lists of set and faction combinations within the groups of similar card counts
-      let groupedOf3s: Deck[] = LoRDeckEncoder.GetGroupedOfs(of3);
-      let groupedOf2s: Deck[] = LoRDeckEncoder.GetGroupedOfs(of2);
-      let groupedOf1s: Deck[] = LoRDeckEncoder.GetGroupedOfs(of1);
+      let groupedOf3s: Deck[] = LorDeckCode.GetGroupedOfs(of3);
+      let groupedOf2s: Deck[] = LorDeckCode.GetGroupedOfs(of2);
+      let groupedOf1s: Deck[] = LorDeckCode.GetGroupedOfs(of1);
 
       //to ensure that the same decklist in any order produces the same code, do some sorting
-      groupedOf3s = LoRDeckEncoder.SortGroupOf(groupedOf3s);
-      groupedOf2s = LoRDeckEncoder.SortGroupOf(groupedOf2s);
-      groupedOf1s = LoRDeckEncoder.SortGroupOf(groupedOf1s);
+      groupedOf3s = LorDeckCode.SortGroupOf(groupedOf3s);
+      groupedOf2s = LorDeckCode.SortGroupOf(groupedOf2s);
+      groupedOf1s = LorDeckCode.SortGroupOf(groupedOf1s);
 
       //Nofs (since rare) are simply sorted by the card code - there's no optimiziation based upon the card count
       sortDeck(ofN);
 
-      const encodedGroupedOf3s = LoRDeckEncoder.EncodeGroupOf(groupedOf3s);
-      const encodedGroupedOf2s = LoRDeckEncoder.EncodeGroupOf(groupedOf2s);
-      const encodedGroupedOf1s = LoRDeckEncoder.EncodeGroupOf(groupedOf1s);
-      const encodedOfN = LoRDeckEncoder.EncodeNOfs(ofN);
+      const encodedGroupedOf3s = LorDeckCode.EncodeGroupOf(groupedOf3s);
+      const encodedGroupedOf2s = LorDeckCode.EncodeGroupOf(groupedOf2s);
+      const encodedGroupedOf1s = LorDeckCode.EncodeGroupOf(groupedOf1s);
+      const encodedOfN = LorDeckCode.EncodeNOfs(ofN);
 
       //Encode
       result = mergeUint8Arrays(result, encodedGroupedOf3s);
@@ -178,7 +178,7 @@ class LoRDeckEncoder {
 
          //get info from first
          const firstCardCode = list[0].cardCode;
-         const { set, faction, number } = LoRDeckEncoder.ParseCardCode(
+         const { set, faction, number } = LorDeckCode.ParseCardCode(
             firstCardCode
          );
 
@@ -209,7 +209,7 @@ class LoRDeckEncoder {
       for (const ccc of nOfs) {
          bytes = mergeUint8Arrays(bytes, VarintTranslator.GetVarint(ccc.count));
 
-         const { set, faction, number } = LoRDeckEncoder.ParseCardCode(
+         const { set, faction, number } = LorDeckCode.ParseCardCode(
             ccc.cardCode
          );
          const factionNumber = this.FACTION_CODE_TO_INT[faction];
@@ -253,7 +253,7 @@ class LoRDeckEncoder {
 
          //what is this group, as identified by a set and faction pair
          const currentCardCode = currentList[0].cardCode;
-         const { set, faction } = LoRDeckEncoder.ParseCardCode(currentCardCode);
+         const { set, faction } = LorDeckCode.ParseCardCode(currentCardCode);
          const currentFactionNumber = this.FACTION_CODE_TO_INT[faction];
          bytes = mergeUint8Arrays(bytes, VarintTranslator.GetVarint(set));
          bytes = mergeUint8Arrays(
@@ -285,8 +285,7 @@ class LoRDeckEncoder {
 
    public static ValidCardCodesAndCounts(deck: Deck): boolean {
       for (const ccc of deck) {
-         if (ccc.cardCode.length != LoRDeckEncoder.CARD_CODE_LENGTH)
-            return false;
+         if (ccc.cardCode.length != LorDeckCode.CARD_CODE_LENGTH) return false;
 
          if (isNaN(Number(ccc.cardCode.substring(0, 2)))) return false;
 
@@ -301,4 +300,4 @@ class LoRDeckEncoder {
    }
 }
 
-export default LoRDeckEncoder;
+export default LorDeckCode;

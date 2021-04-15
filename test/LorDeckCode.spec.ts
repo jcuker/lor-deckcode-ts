@@ -1,4 +1,4 @@
-import LoRDeckEncoder from '../src/RuneterraDeckCode';
+import LorDeckCode from '../src/LoRDeckCode';
 import { Deck } from '../src/types';
 import {
    encodeDeckAndExpectValidRehydration,
@@ -25,7 +25,7 @@ describe('LoRDeckCodes', () => {
             const code: string = codes[i];
             const deck: Deck = decks[i];
 
-            const decodedDeck = LoRDeckEncoder.getDeckFromCode(code);
+            const decodedDeck = LorDeckCode.getDeckFromCode(code);
 
             deck.forEach((cardAndCodeCount) => {
                const found = decodedDeck.find(
@@ -125,10 +125,10 @@ describe('LoRDeckCodes', () => {
          deck4.push({ cardCode: '02DE003', count: 3 });
          deck4.push({ cardCode: '01DE002', count: 4 });
 
-         const code3 = LoRDeckEncoder.getCodeFromDeck(deck1);
-         const code4 = LoRDeckEncoder.getCodeFromDeck(deck2);
-         const code1 = LoRDeckEncoder.getCodeFromDeck(deck1);
-         const code2 = LoRDeckEncoder.getCodeFromDeck(deck2);
+         const code3 = LorDeckCode.getCodeFromDeck(deck1);
+         const code4 = LorDeckCode.getCodeFromDeck(deck2);
+         const code1 = LorDeckCode.getCodeFromDeck(deck1);
+         const code2 = LorDeckCode.getCodeFromDeck(deck2);
 
          expect(code1).toEqual(code2);
          expect(code3).toEqual(code4);
@@ -148,8 +148,8 @@ describe('LoRDeckCodes', () => {
          deck2.push({ cardCode: '02DE003', count: 3 });
          deck2.push({ cardCode: '01DE002', count: 4 });
 
-         const code1 = LoRDeckEncoder.getCodeFromDeck(deck1);
-         const code2 = LoRDeckEncoder.getCodeFromDeck(deck2);
+         const code1 = LorDeckCode.getCodeFromDeck(deck1);
+         const code2 = LorDeckCode.getCodeFromDeck(deck2);
 
          expect(code1).toEqual(code2);
       });
