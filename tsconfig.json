@@ -6,7 +6,7 @@
       "esModuleInterop": true,
       "forceConsistentCasingInFileNames": true,
       "outDir": "dist",
-      "allowJs": true
+      "declaration": true
    },
    "exclude": ["node_modules", "test"],
    "include": ["src"]

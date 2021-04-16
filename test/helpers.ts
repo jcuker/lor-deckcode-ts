@@ -1,5 +1,4 @@
-import LorDeckCode from '../src/LoRDeckCode';
-import { Deck } from '../src/types';
+import { Deck, getCodeFromDeck, getDeckFromCode } from '../src';
 
 interface LoadAndParseDeckCodesTestDataResult {
    codes: string[];
@@ -14,7 +13,9 @@ export function LoadAndParseDeckCodesTestData(): LoadAndParseDeckCodesTestDataRe
    const fs = require('fs');
 
    try {
-      const fileContent: string[] = fs.readFileSync('test/data/DeckCodesTestData.txt', 'utf8').split('\n');
+      const fileContent: string[] = fs
+         .readFileSync('test/data/DeckCodesTestData.txt', 'utf8')
+         .split('\n');
 
       // expect the test file to *not* be malformed
       while (fileContent && fileContent.length > 0) {
@@ -59,8 +60,8 @@ export function verifyRehydration(d: Deck, rehydratedList: Deck): boolean {
 }
 
 export function encodeDeckAndExpectValidRehydration(deck: Deck) {
-   const code = LorDeckCode.getCodeFromDeck(deck);
-   const decoded = LorDeckCode.getDeckFromCode(code);
+   const code = getCodeFromDeck(deck);
+   const decoded = getDeckFromCode(code);
    expect(verifyRehydration(deck, decoded)).toBeTruthy();
 }
 
@@ -69,7 +70,9 @@ export function encodeDeckAndExpectValidRehydration(deck: Deck) {
  */
 export function hexToArrayBuffer(hex: string): ArrayBuffer {
    if (hex.length % 2 !== 0) {
-      throw new RangeError('Expected string to be an even number of characters');
+      throw new RangeError(
+         'Expected string to be an even number of characters'
+      );
    }
 
    const view = new Uint8Array(hex.length / 2);

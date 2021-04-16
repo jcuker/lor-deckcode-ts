@@ -1,6 +1,8 @@
-import LorDeckCode from '../src/LoRDeckCode';
-import { Deck } from '../src/types';
-import { encodeDeckAndExpectValidRehydration, LoadAndParseDeckCodesTestData } from './helpers';
+import { Deck, getCodeFromDeck, getDeckFromCode } from '../src/';
+import {
+   encodeDeckAndExpectValidRehydration,
+   LoadAndParseDeckCodesTestData,
+} from './helpers';
 
 describe('LoRDeckCodes', () => {
    describe('#GetDeckFromCode', () => {
@@ -8,7 +10,10 @@ describe('LoRDeckCodes', () => {
       let decks: Deck[] = [];
 
       beforeAll(() => {
-         const { codes: parsedCodes, decks: parsedDecks } = LoadAndParseDeckCodesTestData();
+         const {
+            codes: parsedCodes,
+            decks: parsedDecks,
+         } = LoadAndParseDeckCodesTestData();
 
          codes = parsedCodes;
          decks = parsedDecks;
@@ -19,11 +24,13 @@ describe('LoRDeckCodes', () => {
             const code: string = codes[i];
             const deck: Deck = decks[i];
 
-            const decodedDeck = LorDeckCode.getDeckFromCode(code);
+            const decodedDeck = getDeckFromCode(code);
 
             deck.forEach((cardAndCodeCount) => {
                const found = decodedDeck.find(
-                  (e) => e.cardCode === cardAndCodeCount.cardCode && e.count === cardAndCodeCount.count,
+                  (e) =>
+                     e.cardCode === cardAndCodeCount.cardCode &&
+                     e.count === cardAndCodeCount.count
                );
                expect(found).toBeTruthy();
             });
@@ -117,10 +124,10 @@ describe('LoRDeckCodes', () => {
          deck4.push({ cardCode: '02DE003', count: 3 });
          deck4.push({ cardCode: '01DE002', count: 4 });
 
-         const code3 = LorDeckCode.getCodeFromDeck(deck1);
-         const code4 = LorDeckCode.getCodeFromDeck(deck2);
-         const code1 = LorDeckCode.getCodeFromDeck(deck1);
-         const code2 = LorDeckCode.getCodeFromDeck(deck2);
+         const code3 = getCodeFromDeck(deck1);
+         const code4 = getCodeFromDeck(deck2);
+         const code1 = getCodeFromDeck(deck1);
+         const code2 = getCodeFromDeck(deck2);
 
          expect(code1).toEqual(code2);
          expect(code3).toEqual(code4);
@@ -140,8 +147,8 @@ describe('LoRDeckCodes', () => {
          deck2.push({ cardCode: '02DE003', count: 3 });
          deck2.push({ cardCode: '01DE002', count: 4 });
 
-         const code1 = LorDeckCode.getCodeFromDeck(deck1);
-         const code2 = LorDeckCode.getCodeFromDeck(deck2);
+         const code1 = getCodeFromDeck(deck1);
+         const code2 = getCodeFromDeck(deck2);
 
          expect(code1).toEqual(code2);
       });

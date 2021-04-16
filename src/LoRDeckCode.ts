@@ -1,10 +1,10 @@
 // This is adopted from https://github.com/RiotGames/LoRDeckCodes
 // This was written to have 0 dependencies, have Typescript support, and to stay as close to the source code as possible
 
-import { CardCodeAndCount, Deck, FactionCode } from './types';
 import VarintTranslator from './VarintTranslator';
 import { mergeUint8Arrays, sortDeck } from './helpers';
 import { base32Decode, base32Encode } from './base32';
+import { FactionCode, Deck, CardCodeAndCount } from './types';
 
 class LorDeckCode {
    private static readonly CARD_CODE_LENGTH: number = 7;
@@ -300,4 +300,7 @@ class LorDeckCode {
    }
 }
 
-export default LorDeckCode;
+export const getDeckFromCode = (code: string): Deck =>
+   LorDeckCode.getDeckFromCode(code);
+export const getCodeFromDeck = (deck: Deck) =>
+   LorDeckCode.getCodeFromDeck(deck);

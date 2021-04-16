@@ -1,4 +1,4 @@
-import { Deck } from './types';
+import { Deck } from '.';
 
 export function sortDeck(deck: Deck) {
    deck.sort((a, b) => (a.cardCode < b.cardCode ? -1 : 1));

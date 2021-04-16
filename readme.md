@@ -2,47 +2,26 @@
 
 This is a TypeScript port of the Legends of Runeterra deck encoder/decoder. The goal of this project is to keep up-to-date with Riot's [Implementation](https://github.com/RiotGames/LoRDeckCodes), stay as close to the original source code as possible, and use zero external runtime dependencies.
 
-## How to Install
+## Installation
 
-For now, you need to clone this repo and include the files in your project. I will look into adding this to the npm registry for the future.
-
-### Example
-Clone the repo
 ```
-git clone https://github.com/jcuker/lor-deckcode-ts.git
+npm i lor-deckcodes-ts
 ```
-then copy files under the `src` directory to your project.
-
-If you want to run tests and/or develop this locally, run 
-```
-pnpm i
-```
-or, if not using [pnpm](https://github.com/pnpm/pnpm)
-```
-npm i
-```
-
-Then you will be able to run 
-```
-npm run start
-``` 
-or 
-```
-npm run test
-```
-to run the unit tests.
-
-## Code Example
+## Usage
 
 ```ts
-import LoRDeckCode from './LoRDeckCode';
-import { CardCodeAndCount, Deck } from 'LoRDeckCode/types';
+import { 
+   getCodeFromDeck, 
+   getDeckFromCode, 
+   CardCodeAndCount, 
+   Deck 
+} from 'lor-deckcodes-ts';
 
 // convert a deck code into a Deck / CardCodeAndCount[]
 const code: string =
    'CEBQGAIFAMJC6BABAMCBGFJUAICAGAQRAICACBIWDQOS4AIBAM4AEAIEAUIQEBADAEHQ';
 
-const decodedDeck: Deck = LoRDeckCode.getDeckFromCode(code);
+const decodedDeck: Deck = getDeckFromCode(code);
 
 /* Expected Output 
 [
@@ -189,7 +168,7 @@ const deck: Deck = [
    },
 ];
 
-const deckCode: string = loRDeckCode.getCodeFromDeck();
+const deckCode: string = getCodeFromDeck(deck);
 
 /* expected output
 CEBAOAYJBENSGKBJGNOAEAQCAMDAIAIDAIKAEAYJCNKQCAICGEAQEAQJAIAQGCKWAIBAEBII
