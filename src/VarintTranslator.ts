@@ -28,10 +28,7 @@ export default class VarintTranslator {
          const current = this.bytes[i] & VarintTranslator.AllButMSB;
          result |= current << currentShift;
 
-         if (
-            (this.bytes[i] & VarintTranslator.JustMSB) !=
-            VarintTranslator.JustMSB
-         ) {
+         if ((this.bytes[i] & VarintTranslator.JustMSB) != VarintTranslator.JustMSB) {
             this.bytes = this.bytes.slice(bytesPopped);
             return result;
          }

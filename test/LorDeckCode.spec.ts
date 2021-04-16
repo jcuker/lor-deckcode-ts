@@ -1,9 +1,6 @@
 import LorDeckCode from '../src/LoRDeckCode';
 import { Deck } from '../src/types';
-import {
-   encodeDeckAndExpectValidRehydration,
-   LoadAndParseDeckCodesTestData,
-} from './helpers';
+import { encodeDeckAndExpectValidRehydration, LoadAndParseDeckCodesTestData } from './helpers';
 
 describe('LoRDeckCodes', () => {
    describe('#GetDeckFromCode', () => {
@@ -11,10 +8,7 @@ describe('LoRDeckCodes', () => {
       let decks: Deck[] = [];
 
       beforeAll(() => {
-         const {
-            codes: parsedCodes,
-            decks: parsedDecks,
-         } = LoadAndParseDeckCodesTestData();
+         const { codes: parsedCodes, decks: parsedDecks } = LoadAndParseDeckCodesTestData();
 
          codes = parsedCodes;
          decks = parsedDecks;
@@ -29,9 +23,7 @@ describe('LoRDeckCodes', () => {
 
             deck.forEach((cardAndCodeCount) => {
                const found = decodedDeck.find(
-                  (e) =>
-                     e.cardCode === cardAndCodeCount.cardCode &&
-                     e.count === cardAndCodeCount.count
+                  (e) => e.cardCode === cardAndCodeCount.cardCode && e.count === cardAndCodeCount.count,
                );
                expect(found).toBeTruthy();
             });

@@ -7,16 +7,14 @@ interface LoadAndParseDeckCodesTestDataResult {
 }
 
 export function LoadAndParseDeckCodesTestData(): LoadAndParseDeckCodesTestDataResult {
-   let codes: string[] = [];
-   let decks: Deck[] = [];
+   const codes: string[] = [];
+   const decks: Deck[] = [];
 
    // load the test data from file
    const fs = require('fs');
 
    try {
-      const fileContent: string[] = fs
-         .readFileSync('test/data/DeckCodesTestData.txt', 'utf8')
-         .split('\n');
+      const fileContent: string[] = fs.readFileSync('test/data/DeckCodesTestData.txt', 'utf8').split('\n');
 
       // expect the test file to *not* be malformed
       while (fileContent && fileContent.length > 0) {
@@ -71,9 +69,7 @@ export function encodeDeckAndExpectValidRehydration(deck: Deck) {
  */
 export function hexToArrayBuffer(hex: string): ArrayBuffer {
    if (hex.length % 2 !== 0) {
-      throw new RangeError(
-         'Expected string to be an even number of characters'
-      );
+      throw new RangeError('Expected string to be an even number of characters');
    }
 
    const view = new Uint8Array(hex.length / 2);

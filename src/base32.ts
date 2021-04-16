@@ -1,7 +1,7 @@
 // Adopted from https://github.com/scttcper/ts-base32 but removed un-needed functionality
 
 // RFC3548
-const alphabet: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
 
 /**
  * Encodes an ArrayBuffer as a base32 string
@@ -61,13 +61,8 @@ export function base32Decode(input: string): ArrayBuffer {
 
    const output = new Uint8Array(((cleanedInput.length * 5) / 8) | 0);
 
-   for (
-      let currCharOfInput = 0;
-      currCharOfInput < cleanedInput.length;
-      currCharOfInput++
-   ) {
-      value =
-         (value << 5) | readCharOrThrowError(cleanedInput[currCharOfInput]);
+   for (let currCharOfInput = 0; currCharOfInput < cleanedInput.length; currCharOfInput++) {
+      value = (value << 5) | readCharOrThrowError(cleanedInput[currCharOfInput]);
       numBitsProcessed += 5;
 
       if (numBitsProcessed >= 8) {

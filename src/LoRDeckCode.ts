@@ -115,13 +115,13 @@ class LorDeckCode {
    }
 
    public static getCodeFromDeck(deck: Deck) {
-      const bytes = this.GetDeckCodeBytes(deck);
+      const bytes = this.getDeckCodeBytes(deck);
       const result = base32Encode(bytes);
 
       return result;
    }
 
-   private static GetDeckCodeBytes(deck: Deck): Uint8Array {
+   private static getDeckCodeBytes(deck: Deck): Uint8Array {
       if (!LorDeckCode.ValidCardCodesAndCounts(deck))
          throw 'The provided deck contains invalid card codes.';
 
@@ -131,7 +131,7 @@ class LorDeckCode {
       const of3: Deck = [];
       const of2: Deck = [];
       const of1: Deck = [];
-      let ofN: Deck = [];
+      const ofN: Deck = [];
 
       for (const ccc of deck) {
          if (ccc.count == 3) of3.push(ccc);
