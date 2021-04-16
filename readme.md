@@ -1,4 +1,4 @@
-# LoR Deckcode
+# LoR Deckcodes
 
 This is a TypeScript port of the Legends of Runeterra deck encoder/decoder. The goal of this project is to keep up-to-date with Riot's [Implementation](https://github.com/RiotGames/LoRDeckCodes), stay as close to the original source code as possible, and use zero external runtime dependencies.
 
