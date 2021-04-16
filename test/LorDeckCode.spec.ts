@@ -185,16 +185,5 @@ describe('LoRDeckCodes', () => {
 
          encodeDeckAndExpectValidRehydration(deck);
       });
-
-      it('should fail an invalid deck version', () => {
-         const deck: Deck = [];
-
-         deck.push({ cardCode: '01DE002', count: 4 });
-         deck.push({ cardCode: '01DE003', count: 2 });
-         deck.push({ cardCode: '02DE003', count: 3 });
-         deck.push({ cardCode: '01DE004', count: 5 });
-
-         //encodeDeckAndExpectValidRehydration(deck);
-      });
    });
 });
