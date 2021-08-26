@@ -8,37 +8,69 @@ import { FactionCode, Deck, CardCodeAndCount } from './types';
 
 class LorDeckCode {
    private static readonly CARD_CODE_LENGTH: number = 7;
-   private static readonly MAX_KNOWN_VERSION: number = 3;
+   private static readonly MAX_KNOWN_VERSION: number = 4;
+   private static readonly FORMAT: number = 1;
+   private static readonly INITIAL_VERSION: number = 1;
 
    private static readonly FACTION_CODE_TO_INT: Record<
       FactionCode | string,
       number
    > = {
-      DE: 0,
-      FR: 1,
-      IO: 2,
-      NX: 3,
-      PZ: 4,
-      SI: 5,
-      BW: 6,
-      SH: 7,
-      MT: 9,
-   };
+         DE: 0,
+         FR: 1,
+         IO: 2,
+         NX: 3,
+         PZ: 4,
+         SI: 5,
+         BW: 6,
+         SH: 7,
+         MT: 9,
+         BC: 10
+      };
 
    private static readonly INT_TO_FACTION_CODE: Record<
       number,
       FactionCode | string
    > = {
-      0: 'DE',
-      1: 'FR',
-      2: 'IO',
-      3: 'NX',
-      4: 'PZ',
-      5: 'SI',
-      6: 'BW',
-      7: 'SH',
-      9: 'MT',
-   };
+         0: 'DE',
+         1: 'FR',
+         2: 'IO',
+         3: 'NX',
+         4: 'PZ',
+         5: 'SI',
+         6: 'BW',
+         7: 'SH',
+         9: 'MT',
+         10: 'BC'
+      };
+
+   private static readonly FACTION_CODE_TO_LIBRARY_VERSION: Record<
+      FactionCode | string,
+      number
+   > = {
+         DE: 1,
+         FR: 1,
+         IO: 1,
+         NX: 1,
+         PZ: 1,
+         SI: 1,
+         BW: 2,
+         MT: 2,
+         SH: 3,
+         BC: 4
+      };
+
+   private static getMinSupportedLibraryVersion(deck: Deck): number {
+      if (!deck) {
+         return LorDeckCode.INITIAL_VERSION;
+      }
+
+      const allFactionCodes = deck
+         .map(ccc => ccc.cardCode.substr(2, 2))
+         .map(factionCode => this.FACTION_CODE_TO_LIBRARY_VERSION[factionCode] || this.INITIAL_VERSION);
+
+      return Math.max(...allFactionCodes);
+   }
 
    public static getDeckFromCode(code: string): Deck {
       const result: Deck = [];
@@ -125,7 +157,8 @@ class LorDeckCode {
       if (!LorDeckCode.ValidCardCodesAndCounts(deck))
          throw 'The provided deck contains invalid card codes.';
 
-      const formatAndVersion = 19; //i.e. 00010011
+      const formatAndVersion = this.FORMAT << 4 | (this.getMinSupportedLibraryVersion(deck) & 0xf)
+
       let result = new Uint8Array([formatAndVersion]);
 
       const of3: Deck = [];

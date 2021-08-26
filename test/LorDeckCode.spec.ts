@@ -185,5 +185,16 @@ describe('LoRDeckCodes', () => {
 
          encodeDeckAndExpectValidRehydration(deck);
       });
+
+      it('should handle Bandle City', () => {
+         const deck: Deck = [];
+
+         deck.push({ cardCode: "01DE003", count: 2 });
+         deck.push({ cardCode: "01BC001", count: 3 });
+         deck.push({ cardCode: "01BC002", count: 4 });
+         deck.push({ cardCode: "01BC004", count: 5 });
+         
+         encodeDeckAndExpectValidRehydration(deck);
+      })
    });
 });
