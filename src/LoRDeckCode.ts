@@ -8,7 +8,7 @@ import { FactionCode, Deck, CardCodeAndCount } from './types';
 
 class LorDeckCode {
    private static readonly CARD_CODE_LENGTH: number = 7;
-   private static readonly MAX_KNOWN_VERSION: number = 4;
+   private static readonly MAX_KNOWN_VERSION: number = 5;
    private static readonly FORMAT: number = 1;
    private static readonly INITIAL_VERSION: number = 1;
 
@@ -25,7 +25,8 @@ class LorDeckCode {
          BW: 6,
          SH: 7,
          MT: 9,
-         BC: 10
+         BC: 10,
+         RU: 12
       };
 
    private static readonly INT_TO_FACTION_CODE: Record<
@@ -41,7 +42,8 @@ class LorDeckCode {
          6: 'BW',
          7: 'SH',
          9: 'MT',
-         10: 'BC'
+         10: 'BC',
+         12: 'RU'
       };
 
    private static readonly FACTION_CODE_TO_LIBRARY_VERSION: Record<
@@ -57,7 +59,8 @@ class LorDeckCode {
          BW: 2,
          MT: 2,
          SH: 3,
-         BC: 4
+         BC: 4,
+         RU: 5
       };
 
    private static getMinSupportedLibraryVersion(deck: Deck): number {
@@ -157,7 +160,7 @@ class LorDeckCode {
       if (!LorDeckCode.ValidCardCodesAndCounts(deck))
          throw 'The provided deck contains invalid card codes.';
 
-      const formatAndVersion = this.FORMAT << 4 | (this.getMinSupportedLibraryVersion(deck) & 0xf)
+      const formatAndVersion = this.FORMAT << this.MAX_KNOWN_VERSION | (this.getMinSupportedLibraryVersion(deck) & 0xf)
 
       let result = new Uint8Array([formatAndVersion]);
 

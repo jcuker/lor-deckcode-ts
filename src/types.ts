@@ -14,4 +14,6 @@ export type FactionCode =
    | 'SI'
    | 'BW'
    | 'SH'
-   | 'MT';
+   | 'MT'
+   | 'BC'
+   | 'RU';
