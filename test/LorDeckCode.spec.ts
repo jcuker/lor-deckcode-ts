@@ -195,6 +195,17 @@ describe('LoRDeckCodes', () => {
          deck.push({ cardCode: "01BC004", count: 5 });
          
          encodeDeckAndExpectValidRehydration(deck);
+      });
+
+      it('should handle Runeterra (worldwalkers)', () => {
+         const deck: Deck = [];
+
+         deck.push({ cardCode: "06RU002", count: 3 }); // jhin
+         deck.push({ cardCode: "01DE003", count: 2 });
+         deck.push({ cardCode: "01BC002", count: 4 });
+         deck.push({ cardCode: "01BC004", count: 5 });
+
+         encodeDeckAndExpectValidRehydration(deck);
       })
    });
 });
