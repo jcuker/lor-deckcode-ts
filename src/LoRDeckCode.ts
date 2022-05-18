@@ -16,52 +16,52 @@ class LorDeckCode {
       FactionCode | string,
       number
    > = {
-         DE: 0,
-         FR: 1,
-         IO: 2,
-         NX: 3,
-         PZ: 4,
-         SI: 5,
-         BW: 6,
-         SH: 7,
-         MT: 9,
-         BC: 10,
-         RU: 12
-      };
+      DE: 0,
+      FR: 1,
+      IO: 2,
+      NX: 3,
+      PZ: 4,
+      SI: 5,
+      BW: 6,
+      SH: 7,
+      MT: 9,
+      BC: 10,
+      RU: 12,
+   };
 
    private static readonly INT_TO_FACTION_CODE: Record<
       number,
       FactionCode | string
    > = {
-         0: 'DE',
-         1: 'FR',
-         2: 'IO',
-         3: 'NX',
-         4: 'PZ',
-         5: 'SI',
-         6: 'BW',
-         7: 'SH',
-         9: 'MT',
-         10: 'BC',
-         12: 'RU'
-      };
+      0: 'DE',
+      1: 'FR',
+      2: 'IO',
+      3: 'NX',
+      4: 'PZ',
+      5: 'SI',
+      6: 'BW',
+      7: 'SH',
+      9: 'MT',
+      10: 'BC',
+      12: 'RU',
+   };
 
    private static readonly FACTION_CODE_TO_LIBRARY_VERSION: Record<
       FactionCode | string,
       number
    > = {
-         DE: 1,
-         FR: 1,
-         IO: 1,
-         NX: 1,
-         PZ: 1,
-         SI: 1,
-         BW: 2,
-         MT: 2,
-         SH: 3,
-         BC: 4,
-         RU: 5
-      };
+      DE: 1,
+      FR: 1,
+      IO: 1,
+      NX: 1,
+      PZ: 1,
+      SI: 1,
+      BW: 2,
+      MT: 2,
+      SH: 3,
+      BC: 4,
+      RU: 5,
+   };
 
    private static getMinSupportedLibraryVersion(deck: Deck): number {
       if (!deck) {
@@ -69,8 +69,12 @@ class LorDeckCode {
       }
 
       const allFactionCodes = deck
-         .map(ccc => ccc.cardCode.substr(2, 2))
-         .map(factionCode => this.FACTION_CODE_TO_LIBRARY_VERSION[factionCode] || this.INITIAL_VERSION);
+         .map((ccc) => ccc.cardCode.substr(2, 2))
+         .map(
+            (factionCode) =>
+               this.FACTION_CODE_TO_LIBRARY_VERSION[factionCode] ||
+               this.INITIAL_VERSION
+         );
 
       return Math.max(...allFactionCodes);
    }
@@ -130,9 +134,8 @@ class LorDeckCode {
          const fourPlusNumber = byteList.PopVarint();
 
          const fourPlusSetString = fourPlusSet.toString().padStart(2, '0');
-         const fourPlusFactionString = this.INT_TO_FACTION_CODE[
-            fourPlusFaction
-         ];
+         const fourPlusFactionString =
+            this.INT_TO_FACTION_CODE[fourPlusFaction];
          const fourPlusNumberString = fourPlusNumber
             .toString()
             .padStart(3, '0');
@@ -160,7 +163,9 @@ class LorDeckCode {
       if (!LorDeckCode.ValidCardCodesAndCounts(deck))
          throw 'The provided deck contains invalid card codes.';
 
-      const formatAndVersion = this.FORMAT << this.MAX_KNOWN_VERSION | (this.getMinSupportedLibraryVersion(deck) & 0xf)
+      const formatAndVersion =
+         (this.FORMAT << this.MAX_KNOWN_VERSION) |
+         (this.getMinSupportedLibraryVersion(deck) & 0xf);
 
       let result = new Uint8Array([formatAndVersion]);
 
@@ -214,9 +219,8 @@ class LorDeckCode {
 
          //get info from first
          const firstCardCode = list[0].cardCode;
-         const { set, faction, number } = LorDeckCode.ParseCardCode(
-            firstCardCode
-         );
+         const { set, faction, number } =
+            LorDeckCode.ParseCardCode(firstCardCode);
 
          //now add that to our new list, remove from old
          currentSet.push(list[0]);
